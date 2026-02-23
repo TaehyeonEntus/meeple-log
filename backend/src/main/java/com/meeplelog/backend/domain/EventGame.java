@@ -1,23 +1,37 @@
 package com.meeplelog.backend.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EventGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    private Instant start;
+    private Instant end;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
 
-    private Instant start;
-    private Instant end;
+    public static EventGame of(Instant start, Instant end, Event event, Game game) {
+        return new EventGame(start, end, event, game);
+    }
+
+    private EventGame(Instant start, Instant end, Event event, Game game) {
+        this.start = start;
+        this.end = end;
+        this.event = event;
+        this.game = game;
+    }
 }
