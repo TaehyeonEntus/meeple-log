@@ -22,7 +22,7 @@ public class AddEventUseCase {
     private final GameService gameService;
 
     @Transactional
-    public void addEvent(AddEventRequest request) {
+    public Event addEvent(AddEventRequest request) {
         String name = request.name();
 
         Instant start = request.start();
@@ -51,6 +51,6 @@ public class AddEventUseCase {
         event.getEventGames().addAll(eventGames);
         event.getEventPlayers().addAll(eventPlayers);
 
-        eventService.add(event);
+        return eventService.add(event);
     }
 }

@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class AddGameUseCase {
     private final GameService gameService;
 
-    public void addGame(AddGameRequest request){
+    public Game addGame(AddGameRequest request){
         String name = request.name();
 
         validateNameUniqueness(name);
 
-        gameService.add(Game.of(name));
+        return gameService.add(Game.of(name));
     }
 
     private void validateNameUniqueness(String name){

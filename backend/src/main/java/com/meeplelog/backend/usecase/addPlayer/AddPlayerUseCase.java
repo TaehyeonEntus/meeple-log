@@ -18,7 +18,7 @@ public class AddPlayerUseCase {
     private final PlayerService playerService;
 
     @Transactional
-    public void addPlayer(AddPlayerRequest request){
+    public Player addPlayer(AddPlayerRequest request){
         String name = request.name();
         String username = request.username();
         String password = request.password();
@@ -28,7 +28,7 @@ public class AddPlayerUseCase {
         validateUsernameUniqueness(username);
         validatePasswordMatch(password, passwordConfirm);
 
-        playerService.add(Player.of(name,username,password));
+        return playerService.add(Player.of(name,username,password));
     }
 
     private void validateNameUniqueness(String name){
