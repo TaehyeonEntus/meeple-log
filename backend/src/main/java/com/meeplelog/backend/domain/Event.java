@@ -29,10 +29,6 @@ public class Event {
     private final List<EventPlayer> eventPlayers = new ArrayList<>();
 
 
-
-
-
-    // 정적 생성자
     public static Event of(String name, Instant start, Instant end){
         return new Event(name, start, end);
     }

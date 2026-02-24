@@ -25,4 +25,8 @@ public class PlayerService {
     public boolean existsByUsername(String username){
         return playerRepository.existsByUsername(username);
     }
+
+    public Player getByUsername(String username) {
+        return playerRepository.findByUsername(username).orElseThrow();
+    }
 }

@@ -1,6 +1,6 @@
-package com.meeplelog.backend.usecase.addPlayer.dto;
+package com.meeplelog.backend.usecase.authentication.dto;
 
-public record AddPlayerRequest(
+public record RegisterRequest(
         String username,
         String name,
         String password,

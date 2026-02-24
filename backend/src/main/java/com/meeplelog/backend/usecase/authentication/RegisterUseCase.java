@@ -1,26 +1,26 @@
-package com.meeplelog.backend.usecase.addPlayer;
+package com.meeplelog.backend.usecase.authentication;
 
 import com.meeplelog.backend.domain.Player;
 import com.meeplelog.backend.exception.DuplicateNameException;
 import com.meeplelog.backend.exception.DuplicateUsernameException;
 import com.meeplelog.backend.exception.PasswordMismatchException;
 import com.meeplelog.backend.service.PlayerService;
-import com.meeplelog.backend.usecase.addPlayer.dto.AddPlayerRequest;
+import com.meeplelog.backend.usecase.authentication.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AddPlayerUseCase {
-    //todo 비밀번호 인코딩 해야댐 시큐리티 추가하면
-
+public class RegisterUseCase {
     private final PlayerService playerService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Player addPlayer(AddPlayerRequest request){
-        String name = request.name();
+    public Player register(RegisterRequest request){
         String username = request.username();
+        String name = request.name();
         String password = request.password();
         String passwordConfirm = request.passwordConfirm();
 
@@ -28,7 +28,7 @@ public class AddPlayerUseCase {
         validateUsernameUniqueness(username);
         validatePasswordMatch(password, passwordConfirm);
 
-        return playerService.add(Player.of(name,username,password));
+        return playerService.add(Player.of(name,username,passwordEncoder.encode(password)));
     }
 
     private void validateNameUniqueness(String name){

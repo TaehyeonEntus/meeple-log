@@ -18,6 +18,8 @@ public class Game {
 
     private String name;
 
+    private String imageUrl;
+
     public static Game of(String name) {
         return new Game(name);
     }
