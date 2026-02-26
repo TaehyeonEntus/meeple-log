@@ -1,6 +1,6 @@
 package com.meeplelog.backend.security;
 
-import com.meeplelog.backend.domain.Player;
+import com.meeplelog.backend.domain.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    private final Player player;
+    private final User user;
 
     @Override
     @NonNull
@@ -21,21 +21,21 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public long getId() {
-        return player.getId();
+        return user.getId();
     }
 
     public String getName() {
-        return player.getName();
+        return user.getName();
     }
 
     @Override
     @NonNull
     public String getUsername() {
-        return player.getUsername();
+        return user.getUsername();
     }
 
     @Override
     public String getPassword() {
-        return player.getPassword();
+        return user.getPassword();
     }
 }

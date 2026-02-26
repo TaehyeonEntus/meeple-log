@@ -2,6 +2,7 @@ package com.meeplelog.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +28,15 @@ public class Event {
     private final List<EventGame> eventGames = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<EventPlayer> eventPlayers = new ArrayList<>();
+    private final List<EventUser> eventUsers = new ArrayList<>();
 
 
     public static Event of(String name, Instant start, Instant end){
         return new Event(name, start, end);
+    }
+
+    public static Event forTest(long id, String name, Instant start, Instant end){
+        return new Event(id, name, start, end);
     }
 
     private Event(String name, Instant start, Instant end) {

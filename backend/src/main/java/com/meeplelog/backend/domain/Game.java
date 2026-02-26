@@ -1,30 +1,43 @@
 package com.meeplelog.backend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
-
     private String imageUrl;
 
-    public static Game of(String name) {
-        return new Game(name);
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<GameCategory> categories = new ArrayList<>();
+
+    public static Game of(String name, String imageUrl) {
+        return new Game(name, imageUrl);
     }
 
-    private Game(String name){
+    public static Game forTest(long id, String name, String imageUrl){
+        return new Game(id, name, imageUrl);
+    }
+
+    private Game(String name, String imageUrl) {
         this.name = name;
+        this.imageUrl = imageUrl;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(GameCategory.of(this, category));
     }
 }

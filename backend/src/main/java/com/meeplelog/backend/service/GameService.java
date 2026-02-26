@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 public class GameService {
     private final GameRepository gameRepository;
 
-    public Game add(Game game){
+    public Game add(Game game) {
         return gameRepository.save(game);
     }
 
-    public Game get(long gameId){
+    public Game get(long gameId) {
         return gameRepository.findById(gameId).orElseThrow();
     }
 
-    public boolean existsByName(String name){
+    public boolean existsByName(String name) {
         return gameRepository.existsByName(name);
     }
 }

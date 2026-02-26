@@ -15,7 +15,6 @@ public class JwtTokenProvider {
     private final SecretKey key;
     private final long accessTokenExpirationMs;
     private final long refreshTokenExpirationMs;
-    private final JwtParser jwtParser;
 
     public JwtTokenProvider(
             @Value("${jwt.secret}") String secretKey,
@@ -24,7 +23,6 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
         this.accessTokenExpirationMs = accessTokenExpirationMs;
         this.refreshTokenExpirationMs = refreshTokenExpirationMs;
-        this.jwtParser = Jwts.parser().verifyWith(key).build();
     }
 
     public String generateAccessToken(Authentication authentication) {
@@ -33,10 +31,6 @@ public class JwtTokenProvider {
 
     public String generateRefreshToken(Authentication authentication) {
         return createJwt(authentication, refreshTokenExpirationMs);
-    }
-
-    public long getIdFromJwt(String jwt) {
-        return Long.parseLong(jwtParser.parseSignedClaims(jwt).getPayload().getSubject());
     }
 
     private String createJwt(Authentication authentication, long expireTime){

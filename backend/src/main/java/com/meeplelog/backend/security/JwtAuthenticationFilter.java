@@ -20,15 +20,14 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtUtils jwtUtils;
-    private final JwtTokenProvider tokenProvider;
+    private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            UserDetails userDetails = customUserDetailsService.loadUserById(tokenProvider.getIdFromJwt(jwtUtils.getAccessTokenFromRequest(request)));
+            UserDetails userDetails = customUserDetailsService.loadUserById(jwtUtil.getIdFromJwt(jwtUtil.getAccessTokenFromRequest(request)));
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
