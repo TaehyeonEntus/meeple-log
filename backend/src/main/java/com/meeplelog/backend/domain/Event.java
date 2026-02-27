@@ -17,7 +17,7 @@ import java.util.List;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -35,7 +35,7 @@ public class Event {
         return new Event(name, start, end);
     }
 
-    public static Event forTest(long id, String name, Instant start, Instant end){
+    public static Event forTest(Long id, String name, Instant start, Instant end){
         return new Event(id, name, start, end);
     }
 

@@ -3,7 +3,7 @@ package com.meeplelog.backend.feature.user.dto;
 import com.meeplelog.backend.domain.User;
 
 public record UserSummary(
-        long userId,
+        Long userId,
         String name,
         String imageUrl
 ) {

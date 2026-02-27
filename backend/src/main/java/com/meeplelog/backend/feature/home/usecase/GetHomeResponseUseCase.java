@@ -26,14 +26,14 @@ public class GetHomeResponseUseCase {
             return HomeResponse.of(
                     getUserDetailUseCase.getUserDetail(userId),
                     getCategorySummariesUseCase.getCategorySummaries(),
-                    getMostPlayedGameSummariesUseCase.getMostPlayedGameSummariesByUser(userId, 10),
-                    getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummariesByUser(userId, 10));
+                    getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(userId, null, 10),
+                    getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(userId, null, 10));
         } else {
             return HomeResponse.of(
                     null,
                     getCategorySummariesUseCase.getCategorySummaries(),
-                    getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(10),
-                    getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(10));
+                    getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(null, null, 10),
+                    getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 10));
         }
     }
 }

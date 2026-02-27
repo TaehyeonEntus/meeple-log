@@ -1,6 +1,10 @@
 package com.meeplelog.backend.feature.event.usecase;
 
-import com.meeplelog.backend.domain.*;
+import com.meeplelog.backend.domain.Event;
+import com.meeplelog.backend.domain.Game;
+import com.meeplelog.backend.domain.User;
+import com.meeplelog.backend.exception.EventGameRequiredException;
+import com.meeplelog.backend.exception.EventUserRequiredException;
 import com.meeplelog.backend.feature.event.web.dto.AddEventGameRequest;
 import com.meeplelog.backend.feature.event.web.dto.AddEventRequest;
 import com.meeplelog.backend.feature.event.web.dto.AddEventUserRequest;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -110,7 +115,7 @@ class AddEventUseCaseTest {
                 List.of(addEventUserRequest1, addEventUserRequest2),
                 eventStart,
                 eventEnd
-                );
+        );
 
         given(gameService.get(1L)).willReturn(mockGame);
         given(gameService.get(2L)).willReturn(game2);
@@ -129,7 +134,7 @@ class AddEventUseCaseTest {
     }
 
     @Test
-    @DisplayName("게임 없이 유저만 포함된 이벤트를 생성할 수 있다")
+    @DisplayName("게임 없이 유저만 포함된 이벤트를 생성할 수 없다")
     void addEvent_withoutGames() {
         // given
         AddEventUserRequest addEventUserRequest1 = new AddEventUserRequest(1L);
@@ -142,24 +147,17 @@ class AddEventUseCaseTest {
                 eventEnd
         );
 
-        given(userService.get(1L)).willReturn(mockUser);
-        given(eventService.add(any(Event.class))).willAnswer(invocation -> invocation.getArgument(0));
-
-        // when
-        Event result = addEventUseCase.addEvent(requestWithoutGames);
-
-        // then
-        assertThat(result.getEventGames()).isEmpty();
-        assertThat(result.getEventUsers()).hasSize(1);
+        // when & then
+        assertThatThrownBy(() -> addEventUseCase.addEvent(requestWithoutGames)).isInstanceOf(EventGameRequiredException.class);
     }
 
     @Test
-    @DisplayName("유저 없이 게임만 포함된 이벤트를 생성할 수 있다")
+    @DisplayName("유저 없이 게임만 포함된 이벤트를 생성할 수 없다")
     void addEvent_withoutUsers() {
         // given
         AddEventGameRequest addEventGameRequest1 = new AddEventGameRequest(1L, gameStart, gameEnd);
 
-        AddEventRequest requestWithoutGames = new AddEventRequest(
+        AddEventRequest requestWithoutUsers = new AddEventRequest(
                 "모임만",
                 List.of(addEventGameRequest1),
                 new ArrayList<>(),
@@ -167,16 +165,7 @@ class AddEventUseCaseTest {
                 eventEnd
         );
 
-        given(userService.get(1L)).willReturn(mockUser);
-        given(eventService.add(any(Event.class))).willAnswer(invocation -> invocation.getArgument(0));
-
-        // when
-        Event result = addEventUseCase.addEvent(requestWithoutGames);
-
-        // then
-        assertThat(result.getEventGames()).isEmpty();
-        assertThat(result.getEventUsers()).hasSize(1);
+        // when & then
+        assertThatThrownBy(() -> addEventUseCase.addEvent(requestWithoutUsers)).isInstanceOf(EventUserRequiredException.class);
     }
-
-
 }

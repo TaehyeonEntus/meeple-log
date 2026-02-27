@@ -2,6 +2,7 @@ package com.meeplelog.backend.feature.game.usecase;
 
 import com.meeplelog.backend.feature.game.dto.GameSummary;
 import com.meeplelog.backend.service.EventGameService;
+import com.meeplelog.backend.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +11,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GetRecentlyPlayedGameSummariesUseCase {
-    private final EventGameService eventGameService;
+    private final GameService gameService;
 
-    public List<GameSummary> getRecentlyPlayedGameSummaries(int limit) {
-        return eventGameService.getRecentlyPlayedGameSummaries(limit);
-    }
-
-    public List<GameSummary> getRecentlyPlayedGameSummariesByUser(long userId, int limit) {
-        return eventGameService.getRecentlyPlayedGameSummariesByUser(userId, limit);
+    public List<GameSummary> getRecentlyPlayedGameSummaries(Long userId, Long categoryId, int limit) {
+        return gameService.getRecentlyPlayedGameSummaries(userId, categoryId, limit);
     }
 }

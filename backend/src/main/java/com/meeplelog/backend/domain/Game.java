@@ -16,7 +16,7 @@ import java.util.List;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
     private String imageUrl;
@@ -28,7 +28,7 @@ public class Game {
         return new Game(name, imageUrl);
     }
 
-    public static Game forTest(long id, String name, String imageUrl){
+    public static Game forTest(Long id, String name, String imageUrl){
         return new Game(id, name, imageUrl);
     }
 

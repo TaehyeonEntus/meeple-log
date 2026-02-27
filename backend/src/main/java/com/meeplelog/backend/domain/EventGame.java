@@ -15,7 +15,7 @@ import java.time.Instant;
 public class EventGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private Instant start;
     private Instant end;
@@ -32,7 +32,7 @@ public class EventGame {
         return new EventGame(start, end, event, game);
     }
 
-    public static EventGame forTest(long id, Instant start, Instant end, Event event, Game game){
+    public static EventGame forTest(Long id, Instant start, Instant end, Event event, Game game){
         return new EventGame(id, start, end, event, game);
     }
 

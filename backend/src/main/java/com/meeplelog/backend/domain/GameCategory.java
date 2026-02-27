@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class GameCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
@@ -27,7 +27,7 @@ public class GameCategory {
         return new GameCategory(game, category);
     }
 
-    public static GameCategory forTest(long id, Game game, Category category){
+    public static GameCategory forTest(Long id, Game game, Category category){
         return new GameCategory(id, game, category);
     }
 

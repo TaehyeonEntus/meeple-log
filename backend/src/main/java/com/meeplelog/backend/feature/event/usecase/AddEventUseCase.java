@@ -3,6 +3,8 @@ package com.meeplelog.backend.feature.event.usecase;
 import com.meeplelog.backend.domain.Event;
 import com.meeplelog.backend.domain.EventGame;
 import com.meeplelog.backend.domain.EventUser;
+import com.meeplelog.backend.exception.EventGameRequiredException;
+import com.meeplelog.backend.exception.EventUserRequiredException;
 import com.meeplelog.backend.service.EventService;
 import com.meeplelog.backend.service.GameService;
 import com.meeplelog.backend.service.UserService;
@@ -29,7 +31,6 @@ public class AddEventUseCase {
         Instant end = request.end();
 
         Event event = Event.of(name, start, end);
-
         List<EventGame> eventGames = request.eventGames().stream()
                 .map(dto ->
                         EventGame.of(
@@ -39,6 +40,9 @@ public class AddEventUseCase {
                                 gameService.get(dto.gameId())
                         )
                 ).toList();
+        if(eventGames.isEmpty())
+            throw new EventGameRequiredException();
+
 
         List<EventUser> eventUsers = request.eventUsers().stream()
                 .map(dto ->
@@ -47,6 +51,8 @@ public class AddEventUseCase {
                                 userService.get(dto.userId())
                         )
                 ).toList();
+        if(eventUsers.isEmpty())
+            throw new EventUserRequiredException();
 
         event.getEventGames().addAll(eventGames);
         event.getEventUsers().addAll(eventUsers);

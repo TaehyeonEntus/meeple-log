@@ -3,7 +3,7 @@ package com.meeplelog.backend.feature.game.dto;
 import com.meeplelog.backend.domain.Game;
 
 public record GameSummary (
-        long gameId,
+        Long gameId,
         String gameName,
         String gameImageUrl
 ){

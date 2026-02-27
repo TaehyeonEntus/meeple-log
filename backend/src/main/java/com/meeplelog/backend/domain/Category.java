@@ -16,7 +16,7 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     private String name;
@@ -30,7 +30,7 @@ public class Category {
         return new Category(name, description);
     }
 
-    public static Category forTest(long id, String name, String description){
+    public static Category forTest(Long id, String name, String description){
         return new Category(id, name, description);
     }
 

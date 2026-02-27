@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class EventUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
@@ -27,7 +27,7 @@ public class EventUser {
         return new EventUser(event, user);
     }
 
-    public static EventUser forTest(long id, Event event, User user){
+    public static EventUser forTest(Long id, Event event, User user){
         return new EventUser(id, event, user);
     }
 

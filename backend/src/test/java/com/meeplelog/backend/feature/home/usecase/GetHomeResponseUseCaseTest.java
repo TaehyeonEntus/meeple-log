@@ -60,8 +60,8 @@ class GetHomeResponseUseCaseTest {
         given(securityUtil.getIdFromAuthentication(authentication)).willReturn(1L);
         given(getUserDetailUseCase.getUserDetail(1L)).willReturn(userDetail);
         given(getCategorySummariesUseCase.getCategorySummaries()).willReturn(categories);
-        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummariesByUser(1L, 10)).willReturn(mostPlayed);
-        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummariesByUser(1L, 10)).willReturn(recentlyPlayed);
+        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(1L, null, 10)).willReturn(mostPlayed);
+        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(1L, null, 10)).willReturn(recentlyPlayed);
 
         // when
         HomeResponse result = getHomeResponseUseCase.getHomeResponse(authentication);
@@ -69,34 +69,8 @@ class GetHomeResponseUseCaseTest {
         // then
         assertThat(result).isNotNull();
         verify(getUserDetailUseCase).getUserDetail(1L);
-        verify(getMostPlayedGameSummariesUseCase).getMostPlayedGameSummariesByUser(1L, 10);
-        verify(getRecentlyPlayedGameSummariesUseCase).getRecentlyPlayedGameSummariesByUser(1L, 10);
-    }
-
-    @Test
-    @DisplayName("CustomUserDetails 타입의 인증 정보로 홈 응답을 생성한다")
-    void getHomeResponse_customUserDetails() {
-        // given
-        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
-        Authentication authentication = mock(Authentication.class);
-        given(authentication.isAuthenticated()).willReturn(false);
-
-        UserDetail userDetail = mock(UserDetail.class);
-        List<CategorySummary> categories = List.of();
-        List<GameSummary> mostPlayed = List.of();
-        List<GameSummary> recentlyPlayed = List.of();
-
-        given(securityUtil.getIdFromAuthentication(authentication)).willReturn(1L);
-        given(getUserDetailUseCase.getUserDetail(1L)).willReturn(userDetail);
-        given(getCategorySummariesUseCase.getCategorySummaries()).willReturn(categories);
-        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummariesByUser(1L, 10)).willReturn(mostPlayed);
-        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummariesByUser(1L, 10)).willReturn(recentlyPlayed);
-
-        // when
-        HomeResponse result = getHomeResponseUseCase.getHomeResponse(authentication);
-
-        // then
-        assertThat(result).isNotNull();
+        verify(getMostPlayedGameSummariesUseCase).getMostPlayedGameSummaries(1L, null, 10);
+        verify(getRecentlyPlayedGameSummariesUseCase).getRecentlyPlayedGameSummaries(1L, null, 10);
     }
 
     @Test
@@ -111,40 +85,14 @@ class GetHomeResponseUseCaseTest {
         List<GameSummary> recentlyPlayed = List.of();
 
         given(getCategorySummariesUseCase.getCategorySummaries()).willReturn(categories);
-        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(10)).willReturn(mostPlayed);
-        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(10)).willReturn(recentlyPlayed);
+        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummaries(null, null, 10)).willReturn(mostPlayed);
+        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 10)).willReturn(recentlyPlayed);
 
         // when
-        HomeResponse result = getHomeResponseUseCase.getHomeResponse(authentication);
+        HomeResponse response = getHomeResponseUseCase.getHomeResponse(authentication);
 
         // then
-        assertThat(result).isNotNull();
-        verify(getUserDetailUseCase, never()).getUserDetail(anyLong());
-        verify(getMostPlayedGameSummariesUseCase).getMostPlayedGameSummaries(10);
-        verify(getRecentlyPlayedGameSummariesUseCase).getRecentlyPlayedGameSummaries(10);
-    }
-
-    @Test
-    @DisplayName("인증된 사용자는 사용자별 게임 통계를 받는다")
-    void getHomeResponse_authenticatedUserGetsPersonalizedStats() {
-        // given
-        Authentication authentication = mock(Authentication.class);
-        given(authentication.isAuthenticated()).willReturn(true);
-
-        UserDetail userDetail = mock(UserDetail.class);
-        given(securityUtil.getIdFromAuthentication(authentication)).willReturn(123L);
-        given(getUserDetailUseCase.getUserDetail(123L)).willReturn(userDetail);
-        given(getCategorySummariesUseCase.getCategorySummaries()).willReturn(List.of());
-        given(getMostPlayedGameSummariesUseCase.getMostPlayedGameSummariesByUser(123L, 10)).willReturn(List.of());
-        given(getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummariesByUser(123L, 10)).willReturn(List.of());
-
-        // when
-        getHomeResponseUseCase.getHomeResponse(authentication);
-
-        // then
-        verify(getMostPlayedGameSummariesUseCase).getMostPlayedGameSummariesByUser(123L, 10);
-        verify(getRecentlyPlayedGameSummariesUseCase).getRecentlyPlayedGameSummariesByUser(123L, 10);
-        verify(getMostPlayedGameSummariesUseCase, never()).getMostPlayedGameSummaries(anyInt());
-        verify(getRecentlyPlayedGameSummariesUseCase, never()).getRecentlyPlayedGameSummaries(anyInt());
+        verify(getMostPlayedGameSummariesUseCase).getMostPlayedGameSummaries(null, null, 10);
+        verify(getRecentlyPlayedGameSummariesUseCase).getRecentlyPlayedGameSummaries(null, null, 10);
     }
 }

@@ -1,7 +1,7 @@
 package com.meeplelog.backend.feature.game.usecase;
 
 import com.meeplelog.backend.feature.game.dto.GameSummary;
-import com.meeplelog.backend.service.EventGameService;
+import com.meeplelog.backend.service.GameService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 class GetRecentlyPlayedGameSummariesUseCaseTest {
 
     @Mock
-    private EventGameService eventGameService;
+    private GameService gameService;
 
     @InjectMocks
     private GetRecentlyPlayedGameSummariesUseCase getRecentlyPlayedGameSummariesUseCase;
@@ -29,14 +29,14 @@ class GetRecentlyPlayedGameSummariesUseCaseTest {
     void getRecentlyPlayedGameSummaries_success() {
         // given
         List<GameSummary> mockSummaries = List.of();
-        given(eventGameService.getRecentlyPlayedGameSummaries(10)).willReturn(mockSummaries);
+        given(gameService.getRecentlyPlayedGameSummaries(null, null, 10)).willReturn(mockSummaries);
 
         // when
-        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(10);
+        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 10);
 
         // then
         assertThat(result).isNotNull();
-        verify(eventGameService).getRecentlyPlayedGameSummaries(10);
+        verify(gameService).getRecentlyPlayedGameSummaries(null, null, 10);
     }
 
     @Test
@@ -44,14 +44,14 @@ class GetRecentlyPlayedGameSummariesUseCaseTest {
     void getRecentlyPlayedGameSummariesByUser_success() {
         // given
         List<GameSummary> mockSummaries = List.of();
-        given(eventGameService.getRecentlyPlayedGameSummariesByUser(1L, 5)).willReturn(mockSummaries);
+        given(gameService.getRecentlyPlayedGameSummaries(1L, null, 5)).willReturn(mockSummaries);
 
         // when
-        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummariesByUser(1L, 5);
+        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(1L, null, 5);
 
         // then
         assertThat(result).isNotNull();
-        verify(eventGameService).getRecentlyPlayedGameSummariesByUser(1L, 5);
+        verify(gameService).getRecentlyPlayedGameSummaries(1L, null, 5);
     }
 
     @Test
@@ -59,12 +59,12 @@ class GetRecentlyPlayedGameSummariesUseCaseTest {
     void getRecentlyPlayedGameSummaries_withLimit() {
         // given
         List<GameSummary> mockSummaries = List.of();
-        given(eventGameService.getRecentlyPlayedGameSummaries(20)).willReturn(mockSummaries);
+        given(gameService.getRecentlyPlayedGameSummaries(null, null, 20)).willReturn(mockSummaries);
 
         // when
-        getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(20);
+        getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 20);
 
         // then
-        verify(eventGameService).getRecentlyPlayedGameSummaries(20);
+        verify(gameService).getRecentlyPlayedGameSummaries(null, null, 20);
     }
 }
