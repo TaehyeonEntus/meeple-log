@@ -1,7 +1,6 @@
 package com.meeplelog.backend.feature.game.usecase;
 
 import com.meeplelog.backend.feature.game.dto.GameSummary;
-import com.meeplelog.backend.service.EventGameService;
 import com.meeplelog.backend.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -8,7 +8,6 @@ import com.meeplelog.backend.feature.game.usecase.GetRecentlyPlayedGameSummaries
 import com.meeplelog.backend.feature.home.web.dto.HomeResponse;
 import com.meeplelog.backend.feature.user.dto.UserDetail;
 import com.meeplelog.backend.feature.user.usecase.GetUserDetailUseCase;
-import com.meeplelog.backend.security.CustomUserDetails;
 import com.meeplelog.backend.security.SecurityUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GetHomeResponseUseCaseTest {
