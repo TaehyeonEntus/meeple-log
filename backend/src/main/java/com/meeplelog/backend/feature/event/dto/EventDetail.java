@@ -1,4 +1,11 @@
 package com.meeplelog.backend.feature.event.dto;
 
-public record EventDetail() {
+import java.time.Instant;
+
+public record EventDetail(
+        Long id,
+        String name,
+        Instant startTime,
+        Instant endTime
+) {
 }

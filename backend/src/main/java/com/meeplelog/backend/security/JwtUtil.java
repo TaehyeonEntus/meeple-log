@@ -6,8 +6,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -39,39 +39,38 @@ public class JwtUtil {
     }
 
 
-    public void setAccessTokenOnCookie(String accessToken, HttpServletResponse response) {
-        addJwtOnCookie(response, ACCESS_TOKEN, accessToken, accessTokenExpirationMs);
+    public ResponseCookie createAccessTokenCookie(String accessToken) {
+        return createCookie(ACCESS_TOKEN, accessToken, accessTokenExpirationMs);
     }
 
-    public void setRefreshTokenOnCookie(String refreshToken, HttpServletResponse response) {
-        addJwtOnCookie(response, REFRESH_TOKEN, refreshToken, refreshTokenExpirationMs);
+    public ResponseCookie createRefreshTokenCookie(String refreshToken) {
+        return createCookie(REFRESH_TOKEN, refreshToken, accessTokenExpirationMs);
     }
 
-    public void deleteAccessTokenOnCookie(HttpServletResponse response) {
-        addJwtOnCookie(response, ACCESS_TOKEN, "", 0);
+    public ResponseCookie deleteAccessTokenCookie() {
+        return createCookie(ACCESS_TOKEN, "", 0);
     }
 
-    public void deleteRefreshTokenOnCookie(HttpServletResponse response) {
-        addJwtOnCookie(response, REFRESH_TOKEN, "", 0);
+    public ResponseCookie deleteRefreshTokenCookie() {
+        return createCookie(REFRESH_TOKEN, "", 0);
     }
 
     public long getIdFromJwt(String jwt) {
         return Long.parseLong(jwtParser.parseSignedClaims(jwt).getPayload().getSubject());
     }
 
-    private void addJwtOnCookie(HttpServletResponse response,
-                                String name,
-                                String value,
-                                long maxAgeMs) {
+    private ResponseCookie createCookie(String name,
+                                        String value,
+                                        long maxAgeMs) {
 
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        cookie.setDomain(domain);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge((int) (maxAgeMs / 1000));
-
-        response.addCookie(cookie);
+        return ResponseCookie
+                .from(name, value)
+                .path("/")
+                .domain(domain)
+                .secure(true)
+                .httpOnly(true)
+                .maxAge((int) (maxAgeMs / 1000))
+                .build();
     }
 
     public String getAccessTokenFromRequest(HttpServletRequest request) {

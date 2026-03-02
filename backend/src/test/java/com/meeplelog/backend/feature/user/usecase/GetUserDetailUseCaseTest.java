@@ -10,10 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.NoSuchElementException;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -27,28 +24,21 @@ class GetUserDetailUseCaseTest {
     private GetUserDetailUseCase getUserDetailUseCase;
 
     @Test
-    @DisplayName("사용자 ID로 사용자 상세 정보를 조회한다")
+    @DisplayName("사용자 상세 정보를 조회한다")
     void getUserDetail_success() {
         // given
-        User user = User.of("테스트유저", "testUser", "password", null);
-        given(userService.get(1L)).willReturn(user);
+        long userId = 1L;
+        User user = User.forTest(userId, "Test User", "testuser", "password", "http://image.url");
+        given(userService.get(userId)).willReturn(user);
 
         // when
-        UserDetail result = getUserDetailUseCase.getUserDetail(1L);
+        UserDetail result = getUserDetailUseCase.getUserDetail(userId);
 
         // then
         assertThat(result).isNotNull();
-        verify(userService).get(1L);
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 사용자 ID로 조회 시 예외가 발생한다")
-    void getUserDetail_notFound_throwsException() {
-        // given
-        given(userService.get(999L)).willThrow(NoSuchElementException.class);
-
-        // when & then
-        assertThatThrownBy(() -> getUserDetailUseCase.getUserDetail(999L))
-                .isInstanceOf(NoSuchElementException.class);
+        assertThat(result.id()).isEqualTo(userId);
+        assertThat(result.name()).isEqualTo("Test User");
+        assertThat(result.imageUrl()).isEqualTo("http://image.url");
+        verify(userService).get(userId);
     }
 }

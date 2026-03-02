@@ -22,8 +22,8 @@ class EventTest {
         // then
         assertThat(event).isNotNull();
         assertThat(event.getName()).isEqualTo("보드게임 모임");
-        assertThat(event.getStart()).isEqualTo(start);
-        assertThat(event.getEnd()).isEqualTo(end);
+        assertThat(event.getStartTime()).isEqualTo(start);
+        assertThat(event.getEndTime()).isEqualTo(end);
         assertThat(event.getEventGames()).isEmpty();
         assertThat(event.getEventUsers()).isEmpty();
     }
@@ -42,8 +42,8 @@ class EventTest {
         assertThat(event).isNotNull();
         assertThat(event.getId()).isEqualTo(1L);
         assertThat(event.getName()).isEqualTo("보드게임 모임");
-        assertThat(event.getStart()).isEqualTo(start);
-        assertThat(event.getEnd()).isEqualTo(end);
+        assertThat(event.getStartTime()).isEqualTo(start);
+        assertThat(event.getEndTime()).isEqualTo(end);
         assertThat(event.getEventGames()).isEmpty();
         assertThat(event.getEventUsers()).isEmpty();
     }

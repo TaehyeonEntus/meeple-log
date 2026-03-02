@@ -89,8 +89,8 @@ class AddEventUseCaseTest {
         // then
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("보드게임 모임");
-        assertThat(result.getStart()).isEqualTo(eventStart);
-        assertThat(result.getEnd()).isEqualTo(eventEnd);
+        assertThat(result.getStartTime()).isEqualTo(eventStart);
+        assertThat(result.getEndTime()).isEqualTo(eventEnd);
         assertThat(result.getEventGames()).hasSize(1);
         assertThat(result.getEventUsers()).hasSize(1);
         verify(eventService).add(any(Event.class));

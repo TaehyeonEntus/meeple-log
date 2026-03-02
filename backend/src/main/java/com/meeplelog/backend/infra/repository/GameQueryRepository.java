@@ -23,6 +23,16 @@ import static com.meeplelog.backend.domain.QGameCategory.gameCategory;
 public class GameQueryRepository {
     private final JPAQueryFactory queryFactory;
 
+    public List<GameSummary> getGameSummariesByEvent(Long eventId) {
+        return queryFactory
+                .select(Projections.constructor(GameSummary.class, game.id, game.name, game.imageUrl))
+                .from(game)
+                .where(
+                        eventEq(eventId)
+                )
+                .fetch();
+    }
+
     public List<GameSummary> getMostPlayedGameSummaries(Long userId, Long categoryId, int limit) {
         return queryFactory
                 .select(Projections.constructor(GameSummary.class, game.id, game.name, game.imageUrl))
@@ -78,6 +88,19 @@ public class GameQueryRepository {
                 : null;
     }
 
+    private BooleanExpression eventEq(Long eventId) {
+        return eventId != null
+                ? JPAExpressions
+                .selectOne()
+                .from(eventGame)
+                .where(
+                        eventGame.game.id.eq(game.id),
+                        eventGame.event.id.eq(eventId)
+                )
+                .exists()
+                : null;
+    }
+
     //정렬
     private OrderSpecifier<?> mostPlayed() {
         return new OrderSpecifier<>(
@@ -93,7 +116,7 @@ public class GameQueryRepository {
         return new OrderSpecifier<>(
                 Order.DESC,
                 JPAExpressions
-                        .select(eventGame.end.max())
+                        .select(eventGame.endTime.max())
                         .from(eventGame)
                         .where(eventGame.game.id.eq(game.id))
         );

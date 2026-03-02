@@ -1,0 +1,73 @@
+= Meeple Log API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[Auth]]
+== 인증 API
+
+=== 로그인
+
+operation::auth-login[snippets='http-request,request-fields,http-response,response-fields,response-cookies']
+
+=== 로그아웃
+
+operation::auth-logout[snippets='http-request,request-cookies,http-response,response-fields']
+
+=== 토큰 갱신
+
+operation::auth-refresh[snippets='http-request,request-cookies,http-response,response-fields,response-cookies']
+
+=== 회원가입
+
+operation::auth-register[snippets='http-request,request-fields,http-response,response-fields']
+
+[[Game]]
+== 게임 API
+
+=== 게임 추가
+
+operation::game-add[snippets='http-request,request-fields,http-response,response-fields']
+
+=== 게임 상세 조회 (View)
+
+operation::game-view-get[snippets='http-request,http-response,response-fields']
+
+[[User]]
+== 사용자 API
+
+=== 사용자 상세 조회 (View)
+
+operation::user-view-get[snippets='http-request,http-response,response-fields']
+
+[[Home]]
+== 홈 API
+
+=== 홈 화면 조회
+
+operation::home-view-get[snippets='http-request,request-cookies,http-response,response-fields']
+
+[[Event]]
+== 이벤트 API
+
+=== 이벤트 추가
+
+operation::event-add[snippets='http-request,request-fields,request-cookies,http-response,response-fields']
+
+=== 이벤트 상세 조회 (View)
+
+operation::event-view-get[snippets='http-request,http-response,response-fields']
+
+[[Category]]
+== 카테고리 API
+
+=== 카테고리 추가
+
+operation::category-add[snippets='http-request,request-fields,request-cookies,http-response,response-fields']
+
+=== 카테고리 상세 조회 (View)
+
+operation::category-view-get[snippets='http-request,http-response,response-fields']

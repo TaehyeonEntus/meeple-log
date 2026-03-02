@@ -21,8 +21,8 @@ public class Event {
 
     private String name;
 
-    private Instant start;
-    private Instant end;
+    private Instant startTime;
+    private Instant endTime;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<EventGame> eventGames = new ArrayList<>();
@@ -39,9 +39,9 @@ public class Event {
         return new Event(id, name, start, end);
     }
 
-    private Event(String name, Instant start, Instant end) {
+    private Event(String name, Instant startTime, Instant endTime) {
         this.name = name;
-        this.start = start;
-        this.end = end;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 }

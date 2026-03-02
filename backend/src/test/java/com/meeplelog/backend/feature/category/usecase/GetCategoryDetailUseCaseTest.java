@@ -30,22 +30,22 @@ class GetCategoryDetailUseCaseTest {
     @DisplayName("카테고리 ID로 카테고리 상세 정보를 조회한다")
     void getCategoryDetail_success() {
         // given
-        Category category = Category.of("전략게임", "깊은 사고가 필요한 게임");
-        given(categoryService.get(1L)).willReturn(category);
+        CategoryDetail categoryDetail = CategoryDetail.of(Category.of("전략게임", "깊은 사고가 필요한 게임"));
+        given(categoryService.getCategoryDetail(1L)).willReturn(categoryDetail);
 
         // when
         CategoryDetail result = getCategoryDetailUseCase.getCategoryDetail(1L);
 
         // then
         assertThat(result).isNotNull();
-        verify(categoryService).get(1L);
+        verify(categoryService).getCategoryDetail(1L);
     }
 
     @Test
     @DisplayName("존재하지 않는 카테고리 ID로 조회 시 예외가 발생한다")
     void getCategoryDetail_notFound_throwsException() {
         // given
-        given(categoryService.get(999L)).willThrow(NoSuchElementException.class);
+        given(categoryService.getCategoryDetail(999L)).willThrow(NoSuchElementException.class);
 
         // when & then
         assertThatThrownBy(() -> getCategoryDetailUseCase.getCategoryDetail(999L))

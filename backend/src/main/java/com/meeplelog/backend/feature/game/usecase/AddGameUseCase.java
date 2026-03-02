@@ -13,9 +13,9 @@ public class AddGameUseCase {
     private final GameService gameService;
 
     public Game addGame(AddGameRequest request){
-        validateNameUniqueness(request.gameName());
+        validateNameUniqueness(request.name());
 
-        return gameService.add(Game.of(request.gameName(), request.imageUrl()));
+        return gameService.add(Game.of(request.name(), request.imageUrl()));
     }
 
     private void validateNameUniqueness(String name){

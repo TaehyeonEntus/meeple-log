@@ -1,4 +1,4 @@
-package com.meeplelog.backend.feature.home.web.dto;
+package com.meeplelog.backend.feature.view.home;
 
 import com.meeplelog.backend.feature.category.dto.CategorySummary;
 import com.meeplelog.backend.feature.game.dto.GameSummary;

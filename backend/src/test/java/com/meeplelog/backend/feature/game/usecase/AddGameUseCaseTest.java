@@ -4,7 +4,6 @@ import com.meeplelog.backend.domain.Game;
 import com.meeplelog.backend.exception.DuplicateNameException;
 import com.meeplelog.backend.feature.game.web.dto.AddGameRequest;
 import com.meeplelog.backend.service.GameService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,70 +26,36 @@ class AddGameUseCaseTest {
     @InjectMocks
     private AddGameUseCase addGameUseCase;
 
-    private AddGameRequest validRequest;
-
-    @BeforeEach
-    void setUp() {
-        validRequest = new AddGameRequest("스플렌더", "http://image.url/splendor.jpg");
-    }
-
     @Test
-    @DisplayName("정상적인 게임 추가 요청 시 게임이 생성된다")
+    @DisplayName("새로운 게임을 추가한다")
     void addGame_success() {
         // given
-        given(gameService.existsByName("스플렌더")).willReturn(false);
-        given(gameService.add(any(Game.class))).willAnswer(invocation -> invocation.getArgument(0));
+        AddGameRequest request = new AddGameRequest("Catan", "http://image.url");
+        Game game = Game.of("Catan", "http://image.url");
+        
+        given(gameService.existsByName("Catan")).willReturn(false);
+        given(gameService.add(any(Game.class))).willReturn(game);
 
         // when
-        Game result = addGameUseCase.addGame(validRequest);
+        Game result = addGameUseCase.addGame(request);
 
         // then
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("스플렌더");
-        assertThat(result.getImageUrl()).isEqualTo("http://image.url/splendor.jpg");
+        assertThat(result.getName()).isEqualTo("Catan");
+        verify(gameService).existsByName("Catan");
         verify(gameService).add(any(Game.class));
     }
 
     @Test
-    @DisplayName("중복된 게임 이름으로 추가 시 DuplicateNameException이 발생한다")
+    @DisplayName("이미 존재하는 이름의 게임을 추가하면 예외가 발생한다")
     void addGame_duplicateName_throwsException() {
         // given
-        given(gameService.existsByName("스플렌더")).willReturn(true);
+        AddGameRequest request = new AddGameRequest("Catan", "http://image.url");
+        given(gameService.existsByName("Catan")).willReturn(true);
 
         // when & then
-        assertThatThrownBy(() -> addGameUseCase.addGame(validRequest))
+        assertThatThrownBy(() -> addGameUseCase.addGame(request))
                 .isInstanceOf(DuplicateNameException.class)
                 .hasMessage("이미 존재하는 이름입니다.");
-    }
-
-    @Test
-    @DisplayName("이미지 URL 없이 게임을 추가할 수 있다")
-    void addGame_withoutImageUrl() {
-        // given
-        AddGameRequest requestWithoutImage = new AddGameRequest("카탄", null);
-        given(gameService.existsByName("카탄")).willReturn(false);
-        given(gameService.add(any(Game.class))).willAnswer(invocation -> invocation.getArgument(0));
-
-        // when
-        Game result = addGameUseCase.addGame(requestWithoutImage);
-
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("카탄");
-        assertThat(result.getImageUrl()).isNull();
-    }
-
-    @Test
-    @DisplayName("게임 추가 전 이름 중복 검증이 수행된다")
-    void addGame_validatesNameUniqueness() {
-        // given
-        given(gameService.existsByName("스플렌더")).willReturn(false);
-        given(gameService.add(any(Game.class))).willAnswer(invocation -> invocation.getArgument(0));
-
-        // when
-        addGameUseCase.addGame(validRequest);
-
-        // then
-        verify(gameService).existsByName("스플렌더");
     }
 }

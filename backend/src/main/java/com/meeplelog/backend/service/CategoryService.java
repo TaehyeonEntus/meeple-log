@@ -1,6 +1,7 @@
 package com.meeplelog.backend.service;
 
 import com.meeplelog.backend.domain.Category;
+import com.meeplelog.backend.feature.category.dto.CategoryDetail;
 import com.meeplelog.backend.feature.category.dto.CategorySummary;
 import com.meeplelog.backend.infra.repository.CategoryQueryRepository;
 import com.meeplelog.backend.infra.repository.CategoryRepository;
@@ -25,5 +26,9 @@ public class CategoryService {
 
     public List<CategorySummary> getAllCategorySummaries(){
         return categoryQueryRepository.getAllCategorySummaries();
+    }
+
+    public CategoryDetail getCategoryDetail(Long categoryId){
+        return categoryQueryRepository.getCategoryDetail(categoryId);
     }
 }

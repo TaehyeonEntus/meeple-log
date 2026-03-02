@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class GetCategoryDetailUseCase {
     private final CategoryService categoryService;
 
-    public CategoryDetail getCategoryDetail(long categoryId){
-        return CategoryDetail.of(categoryService.get(categoryId));
+    public CategoryDetail getCategoryDetail(Long categoryId) {
+        return categoryService.getCategoryDetail(categoryId);
     }
 }

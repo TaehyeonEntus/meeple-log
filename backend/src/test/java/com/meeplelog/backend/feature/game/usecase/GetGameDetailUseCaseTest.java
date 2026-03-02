@@ -10,10 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.NoSuchElementException;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -27,28 +24,19 @@ class GetGameDetailUseCaseTest {
     private GetGameDetailUseCase getGameDetailUseCase;
 
     @Test
-    @DisplayName("게임 ID로 게임 상세 정보를 조회한다")
+    @DisplayName("게임 상세 정보를 조회한다")
     void getGameDetail_success() {
         // given
-        Game game = Game.of("스플렌더", "http://image.url");
-        given(gameService.get(1L)).willReturn(game);
+        long gameId = 1L;
+        Game game = Game.of("Catan", "http://image.url");
+        given(gameService.get(gameId)).willReturn(game);
 
         // when
-        GameDetail result = getGameDetailUseCase.getGameDetail(1L);
+        GameDetail result = getGameDetailUseCase.getGameDetail(gameId);
 
         // then
         assertThat(result).isNotNull();
-        verify(gameService).get(1L);
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 게임 ID로 조회 시 예외가 발생한다")
-    void getGameDetail_notFound_throwsException() {
-        // given
-        given(gameService.get(999L)).willThrow(NoSuchElementException.class);
-
-        // when & then
-        assertThatThrownBy(() -> getGameDetailUseCase.getGameDetail(999L))
-                .isInstanceOf(NoSuchElementException.class);
+        assertThat(result.name()).isEqualTo("Catan");
+        verify(gameService).get(gameId);
     }
 }

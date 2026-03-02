@@ -7,8 +7,8 @@ public record AddEventRequest(
         String name,
         List<AddEventGameRequest> eventGames,
         List<AddEventUserRequest> eventUsers,
-        Instant start,
-        Instant end
+        Instant startTime,
+        Instant endTime
 ) {
 }
 

@@ -17,8 +17,8 @@ public class EventGame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant start;
-    private Instant end;
+    private Instant startTime;
+    private Instant endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
@@ -36,9 +36,9 @@ public class EventGame {
         return new EventGame(id, start, end, event, game);
     }
 
-    private EventGame(Instant start, Instant end, Event event, Game game) {
-        this.start = start;
-        this.end = end;
+    private EventGame(Instant startTime, Instant endTime, Event event, Game game) {
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.event = event;
         this.game = game;
     }

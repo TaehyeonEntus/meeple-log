@@ -1,6 +1,5 @@
-package com.meeplelog.backend.feature.home.web;
+package com.meeplelog.backend.feature.view.home;
 
-import com.meeplelog.backend.feature.home.usecase.GetHomeResponseUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/home")
 @RequiredArgsConstructor
-public class HomeController {
+public class HomeViewController {
     private final GetHomeResponseUseCase getHomeResponseUseCase;
 
     @GetMapping

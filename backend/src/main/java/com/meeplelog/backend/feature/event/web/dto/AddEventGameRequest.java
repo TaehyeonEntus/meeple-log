@@ -3,8 +3,8 @@ package com.meeplelog.backend.feature.event.web.dto;
 import java.time.Instant;
 
 public record AddEventGameRequest(
-        Long gameId,
-        Instant start,
-        Instant end
+        Long id,
+        Instant startTime,
+        Instant endTime
 ) {
 }

@@ -1,9 +1,8 @@
-package com.meeplelog.backend.feature.home.usecase;
+package com.meeplelog.backend.feature.view.home;
 
 import com.meeplelog.backend.feature.category.usecase.GetCategorySummariesUseCase;
 import com.meeplelog.backend.feature.game.usecase.GetMostPlayedGameSummariesUseCase;
 import com.meeplelog.backend.feature.game.usecase.GetRecentlyPlayedGameSummariesUseCase;
-import com.meeplelog.backend.feature.home.web.dto.HomeResponse;
 import com.meeplelog.backend.feature.user.usecase.GetUserDetailUseCase;
 import com.meeplelog.backend.security.CustomUserDetails;
 import com.meeplelog.backend.security.SecurityUtil;

@@ -27,17 +27,17 @@ public class AddEventUseCase {
     public Event addEvent(AddEventRequest request) {
         String name = request.name();
 
-        Instant start = request.start();
-        Instant end = request.end();
+        Instant start = request.startTime();
+        Instant end = request.endTime();
 
         Event event = Event.of(name, start, end);
         List<EventGame> eventGames = request.eventGames().stream()
                 .map(dto ->
                         EventGame.of(
-                                dto.start(),
-                                dto.end(),
+                                dto.startTime(),
+                                dto.endTime(),
                                 event,
-                                gameService.get(dto.gameId())
+                                gameService.get(dto.id())
                         )
                 ).toList();
         if(eventGames.isEmpty())
@@ -48,7 +48,7 @@ public class AddEventUseCase {
                 .map(dto ->
                         EventUser.of(
                                 event,
-                                userService.get(dto.userId())
+                                userService.get(dto.id())
                         )
                 ).toList();
         if(eventUsers.isEmpty())

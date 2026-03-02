@@ -28,43 +28,18 @@ class GetRecentlyPlayedGameSummariesUseCaseTest {
     @DisplayName("최근 플레이한 게임 요약 정보를 조회한다")
     void getRecentlyPlayedGameSummaries_success() {
         // given
-        List<GameSummary> mockSummaries = List.of();
-        given(gameService.getRecentlyPlayedGameSummaries(null, null, 10)).willReturn(mockSummaries);
+        Long userId = 1L;
+        Long categoryId = 2L;
+        int limit = 5;
+        List<GameSummary> summaries = List.of(new GameSummary(1L, "Catan", "http://image.url"));
+        given(gameService.getRecentlyPlayedGameSummaries(userId, categoryId, limit)).willReturn(summaries);
 
         // when
-        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 10);
+        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(userId, categoryId, limit);
 
         // then
-        assertThat(result).isNotNull();
-        verify(gameService).getRecentlyPlayedGameSummaries(null, null, 10);
-    }
-
-    @Test
-    @DisplayName("특정 사용자의 최근 플레이한 게임 요약 정보를 조회한다")
-    void getRecentlyPlayedGameSummariesByUser_success() {
-        // given
-        List<GameSummary> mockSummaries = List.of();
-        given(gameService.getRecentlyPlayedGameSummaries(1L, null, 5)).willReturn(mockSummaries);
-
-        // when
-        List<GameSummary> result = getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(1L, null, 5);
-
-        // then
-        assertThat(result).isNotNull();
-        verify(gameService).getRecentlyPlayedGameSummaries(1L, null, 5);
-    }
-
-    @Test
-    @DisplayName("limit 값을 정확히 전달한다")
-    void getRecentlyPlayedGameSummaries_withLimit() {
-        // given
-        List<GameSummary> mockSummaries = List.of();
-        given(gameService.getRecentlyPlayedGameSummaries(null, null, 20)).willReturn(mockSummaries);
-
-        // when
-        getRecentlyPlayedGameSummariesUseCase.getRecentlyPlayedGameSummaries(null, null, 20);
-
-        // then
-        verify(gameService).getRecentlyPlayedGameSummaries(null, null, 20);
+        assertThat(result).hasSize(1);
+        assertThat(result.getFirst().name()).isEqualTo("Catan");
+        verify(gameService).getRecentlyPlayedGameSummaries(userId, categoryId, limit);
     }
 }

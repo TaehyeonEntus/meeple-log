@@ -23,15 +23,15 @@ public class EventUser {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static EventUser of(Event event, User user){
+    public static EventUser of(Event event, User user) {
         return new EventUser(event, user);
     }
 
-    public static EventUser forTest(Long id, Event event, User user){
+    public static EventUser forTest(Long id, Event event, User user) {
         return new EventUser(id, event, user);
     }
 
-    private EventUser(Event event, User user){
+    private EventUser(Event event, User user) {
         this.event = event;
         this.user = user;
     }
